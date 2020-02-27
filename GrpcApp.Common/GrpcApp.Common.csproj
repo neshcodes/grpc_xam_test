@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.7.0" />
+    <PackageReference Include="protobuf-net.Grpc" Version="1.0.22" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Msg\LoginMsg.cs" />
+    <Compile Remove="Msg\RegisterMsg.cs" />
+    <Compile Remove="Service\ILoginService.cs" />
+  </ItemGroup>
+</Project>
