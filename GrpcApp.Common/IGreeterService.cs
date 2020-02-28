@@ -18,6 +18,7 @@ namespace GrpcApp.Common
         public string Text { get; set; }
     }
 
+    [DataContract]
     public class HelloRequest
     {
         [DataMember(Order = 1)]
