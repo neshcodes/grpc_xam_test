@@ -5,6 +5,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using GrpcApp.Common;
 using ProtoBuf.Grpc.Client;
+using ProtoBuf.Grpc.Configuration;
 
 namespace GrpcApp.Client
 {
@@ -61,8 +62,15 @@ namespace GrpcApp.Client
                 GrpcClientFactory.AllowUnencryptedHttp2 = true;
                 using (var channel = GrpcChannel.ForAddress("http://localhost:50001"))
                 {
+                    var serviceType = typeof(IGreeterService);
+                    ServiceBinder.Default.IsServiceContract(serviceType, out var serviceName);
+                    
+
+                    var method = serviceType.GetMethod(nameof(IGreeterService.SayHello))!;
+                    ServiceBinder.Default.IsOperationContract(method, out var operationName);
+
                     HelloRequest request = new HelloRequest() { Name = Guid.NewGuid().ToString() };
-                    var response = await channel.Execute<HelloRequest, HelloReply>(request, nameof(IGreeterService), nameof(IGreeterService.SayHello));
+                    var response = await channel.Execute<HelloRequest, HelloReply>(request, "GrpcApp.Common.GreeterService", "SayHello");
                     Console.WriteLine(response.Text);
                 }
             }
