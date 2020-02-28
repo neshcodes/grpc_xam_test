@@ -66,10 +66,10 @@ namespace GrpcApp
 
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(async () =>
             {
-                /*try
+                try
                 {
                     GrpcClientFactory.AllowUnencryptedHttp2 = true;
-                    using (var channel = GrpcChannel.ForAddress("http://127.0.0.1:50001"))
+                    using (var channel = GrpcChannel.ForAddress("http://10.0.2.2:50001"))
                     {
                         var login_rpc = channel.CreateGrpcService<IGreeterService>();
                         var result = await login_rpc.SayHello(new HelloRequest() { Name = Guid.NewGuid().ToString() });
@@ -79,12 +79,12 @@ namespace GrpcApp
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
-                }*/
+                }
 
-                try
+                /*try
                 {
                     GrpcClientFactory.AllowUnencryptedHttp2 = true;
-                    using (var channel = GrpcChannel.ForAddress("http://localhost:50001"))
+                    using (var channel = GrpcChannel.ForAddress("http://10.0.2.2:50001"))
                     {
                         var serviceType = typeof(IGreeterService);
                         ServiceBinder.Default.IsServiceContract(serviceType, out var serviceName);
@@ -101,7 +101,7 @@ namespace GrpcApp
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
-                }
+                }*/
             });
         }
     }
