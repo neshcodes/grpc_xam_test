@@ -14,7 +14,7 @@ namespace GrpcApp.Server
         {
             services.AddCodeFirstGrpc(config =>
             {
-                config.ResponseCompressionLevel = System.IO.Compression.CompressionLevel.Optimal;
+                //config.ResponseCompressionLevel = System.IO.Compression.CompressionLevel.Optimal;
             });
         }
 

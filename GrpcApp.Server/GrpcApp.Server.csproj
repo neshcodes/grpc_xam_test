@@ -5,9 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
-    <PackageReference Include="protobuf-net.Grpc.AspNetCore" Version="1.0.26" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.27.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +18,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrpcApp.Common\GrpcApp.Common.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\protobuf-net.Grpc.AspNetCore\protobuf-net.Grpc.AspNetCore.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

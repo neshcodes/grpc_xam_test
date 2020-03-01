@@ -74,7 +74,7 @@ namespace GrpcApp.Client
                     Console.WriteLine(response.Text);
                 }*/
 
-                try
+                /*try
                 {
                     GrpcClientFactory.AllowUnencryptedHttp2 = true;
                     using (var channel = GrpcChannel.ForAddress("http://localhost:50001"))
@@ -82,6 +82,25 @@ namespace GrpcApp.Client
                         var login_rpc = channel.CreateGrpcService<IGreeterService>();
                         var result = await login_rpc.SayHello(new HelloRequest() { Name = Guid.NewGuid().ToString() });
                         Console.WriteLine(result.Text);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }*/
+
+                try
+                {
+                    GrpcClientFactory.AllowUnencryptedHttp2 = true;
+                    var channel = new Channel("localhost", 12345, ChannelCredentials.Insecure);
+                    //using (var channel = GrpcChannel.ForAddress("https://localhost:5001"))
+                    //using (var channel = GrpcChannel.ForAddress("https://localhost:5001"))
+                    {
+                        HelloRequest request = new HelloRequest();
+                        request.Name = "11111";
+                        var client = new GrpcClient(channel, "Greeter");
+                        var response = await client.UnaryAsync<HelloRequest, HelloReply>(request, nameof(IGreeterService.SayHello));
+                        Console.WriteLine(response.Text);
                     }
                 }
                 catch (Exception ex)

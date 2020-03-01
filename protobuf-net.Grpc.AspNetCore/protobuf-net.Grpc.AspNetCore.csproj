@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>ProtoBuf.Grpc.Server</RootNamespace>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\protobuf-net.Grpc\protobuf-net.Grpc.csproj" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="$(GrpcDotNetVersion)" />
+  </ItemGroup>
+</Project>

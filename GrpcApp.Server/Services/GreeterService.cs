@@ -1,6 +1,8 @@
+using System.ServiceModel;
 using System.Threading.Tasks;
 using GrpcApp.Common;
 using Microsoft.Extensions.Logging;
+using ProtoBuf.Grpc.Configuration;
 
 namespace GrpcApp.Server.Services
 {
@@ -13,6 +15,8 @@ namespace GrpcApp.Server.Services
                 Text = "Hello " + request.Name
             });
         }*/
+
+        [Operation]
         public async ValueTask<HelloReply> SayHello(HelloRequest request)
         {
             return new HelloReply

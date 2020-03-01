@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <RootNamespace>ProtoBuf.Grpc</RootNamespace>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.27.0" />
+    <ProjectReference Include="..\protobuf-net.Grpc\protobuf-net.Grpc.csproj" />
+  </ItemGroup>
+</Project>

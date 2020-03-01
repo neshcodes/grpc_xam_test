@@ -2,12 +2,14 @@
 using System.ServiceModel;
 using System.Threading.Tasks;
 using ProtoBuf;
+using ProtoBuf.Grpc.Configuration;
 
 namespace GrpcApp.Common
 {
-    [ServiceContract, ProtoContract]
-    public interface IGreeterService
+    [Service("Greeter")]
+    public interface IGreeterService : IGrpcService
     {
+        [Operation]
         ValueTask<HelloReply> SayHello(HelloRequest request);
     }
 
@@ -18,7 +20,7 @@ namespace GrpcApp.Common
         public string Text { get; set; }
     }
 
-    [DataContract, ProtoContract]
+    [DataContract]
     public class HelloRequest
     {
         [DataMember(Order = 1), ProtoMember(1)]
