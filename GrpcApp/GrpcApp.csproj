@@ -18,5 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GrpcApp.Common\GrpcApp.Common.csproj" />
     <ProjectReference Include="..\protobuf-net.Grpc\protobuf-net.Grpc.csproj" />
+    <ProjectReference Include="..\protobuf-net.Grpc.Native\protobuf-net.Grpc.Native.csproj" />
   </ItemGroup>
 </Project>

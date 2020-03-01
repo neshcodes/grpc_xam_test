@@ -6,52 +6,31 @@ using Grpc.Net.Client;
 using GrpcApp.Common;
 using ProtoBuf.Grpc.Client;
 using ProtoBuf.Grpc.Configuration;
+using ProtoBuf.Grpc.Client;
+using ProtoBuf.Grpc.Configuration;
+using ProtoBuf.Grpc.Server;
 
 namespace GrpcApp.Client
 {
-    public static class GrpcExtensions
+    public class GreeterService : IGreeterService
     {
-        public static Task<TResponse> Execute<TRequest, TResponse>(this GrpcChannel channel, TRequest request, string serviceName, string methodName,
-            CallOptions options = default, string? host = null)
-            where TRequest : class
-            where TResponse : class
-            => Execute<TRequest, TResponse>(channel.CreateCallInvoker(), request, serviceName, methodName, options, host);
-
-        public static async Task<TResponse> Execute<TRequest, TResponse>(this CallInvoker invoker, TRequest request, string serviceName, string methodName,
-            CallOptions options = default, string? host = null)
-            where TRequest : class
-            where TResponse : class
+        /*public ValueTask<HelloReply> SayHello(HelloRequest request)
         {
-            var method = new Method<TRequest, TResponse>(MethodType.Unary, serviceName, methodName,
-                CustomMarshaller<TRequest>.Instance, CustomMarshaller<TResponse>.Instance);
-            using (var auc = invoker.AsyncUnaryCall(method, host, options, request))
+            return new ValueTask<HelloReply>(new HelloReply
             {
-                return await auc.ResponseAsync;
-            }
-        }
+                Text = "Hello " + request.Name
+            });
+        }*/
 
-        class CustomMarshaller<T> : Marshaller<T>
+        public async ValueTask<HelloReply> SayHello(HelloRequest request)
         {
-            public static readonly CustomMarshaller<T> Instance = new CustomMarshaller<T>();
-            private CustomMarshaller() : base(Serialize, Deserialize) { }
-
-            private static T Deserialize(byte[] payload)
+            return new HelloReply
             {
-                using (var ms = new MemoryStream(payload))
-                {
-                    return ProtoBuf.Serializer.Deserialize<T>(ms);
-                }
-            }
-            private static byte[] Serialize(T payload)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    ProtoBuf.Serializer.Serialize<T>(ms, payload);
-                    return ms.ToArray();
-                }
-            }
+                Text = "Hello " + request.Name
+            };
         }
     }
+
     class Program
     {
 
@@ -92,13 +71,11 @@ namespace GrpcApp.Client
                 try
                 {
                     GrpcClientFactory.AllowUnencryptedHttp2 = true;
-                    var channel = new Channel("localhost", 12345, ChannelCredentials.Insecure);
-                    //using (var channel = GrpcChannel.ForAddress("https://localhost:5001"))
-                    //using (var channel = GrpcChannel.ForAddress("https://localhost:5001"))
+                    var channel = new Channel("localhost", 50001, ChannelCredentials.Insecure);
                     {
                         HelloRequest request = new HelloRequest();
                         request.Name = "11111";
-                        var client = new GrpcClient(channel, "Greeter");
+                        var client = new GrpcClient(channel, typeof(IGreeterService));
                         var response = await client.UnaryAsync<HelloRequest, HelloReply>(request, nameof(IGreeterService.SayHello));
                         Console.WriteLine(response.Text);
                     }
@@ -107,11 +84,35 @@ namespace GrpcApp.Client
                 {
                     Console.WriteLine(ex);
                 }
+
+                /*Server server = new Server
+                {
+                    Ports = { new ServerPort("localhost", 50051, ServerCredentials.Insecure) }
+                };
+                server.Services.AddCodeFirst(new GreeterService());
+                server.Start();
+
+                GrpcClientFactory.AllowUnencryptedHttp2 = true;
+                Channel channel = new Channel("localhost:50051", ChannelCredentials.Insecure);
+
+                //GrpcClientFactory.AllowUnencryptedHttp2 = true;
+                //var channel = new Channel("10.0.2.2", 50001, ChannelCredentials.Insecure);
+                //using (var channel = GrpcChannel.ForAddress("http://127.0.0.1:50001"))
+                //using (var channel = GrpcChannel.ForAddress("https://localhost:5001"))
+                {
+                    HelloRequest request = new HelloRequest();
+                    request.Name = "11111";
+                    var client = new GrpcClient(channel, "Greeter");
+                    var response = await client.UnaryAsync<HelloRequest, HelloReply>(request, "SayHello");
+                    Console.WriteLine(response.Text);
+                }*/
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
+
+            Console.ReadLine();
         }
     }
 }

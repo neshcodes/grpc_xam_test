@@ -6,8 +6,8 @@ using ProtoBuf.Grpc.Configuration;
 
 namespace GrpcApp.Common
 {
-    [Service("Greeter")]
-    public interface IGreeterService : IGrpcService
+    [Service]
+    public interface IGreeterService
     {
         [Operation]
         ValueTask<HelloReply> SayHello(HelloRequest request);
